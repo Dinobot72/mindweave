@@ -1,0 +1,94 @@
+// mindweave/build.gradle
+plugins {
+    id 'base' // Provides basic lifecycle tasks like 'clean'
+}
+
+// Define a property to hold the path to the backend's virtual environment python
+// This is critical for Gradle to use the correct Python interpreter with installed packages.
+ext {
+    pythonExecutable = "$projectDir/backend/venv/bin/python"
+}
+
+// Task to clean both frontend and backend build artifacts
+task deepClean(type: Delete) {
+    delete 'frontend/node_modules', 'frontend/dist', 'backend/venv'
+    println "Cleaned frontend node_modules, dist, and backend venv."
+}
+
+// Frontend Tasks
+task installFrontendDependencies(type: Exec) {
+    description = "Installs frontend dependencies using Yarn."
+    workingDir 'frontend'
+    commandLine 'yarn', 'install'
+}
+
+task buildFrontend(type: Exec) {
+    description = "Builds the Angular frontend for production."
+    workingDir 'frontend'
+    commandLine 'yarn', 'build' // Or 'ng build --configuration production'
+    dependsOn installFrontendDependencies
+}
+
+task testFrontend(type: Exec) {
+    description = "Runs frontend unit tests using Karma/Yarn."
+    workingDir 'frontend'
+    // Ensure you have a headless browser set up for CI, e.g., Karma ChromeHeadless
+    // For local dev, if you want a browser to pop up, just use 'yarn', 'test'
+    // Otherwise, for CI/headless: 'yarn', 'test', '--', '--no-watch', '--browsers=ChromeHeadless'
+    commandLine 'yarn', 'test', '--', '--watch=false' // Run once without watching
+    dependsOn installFrontendDependencies
+}
+
+task serveFrontend(type: Exec) {
+    description = "Serves the Angular frontend in development mode."
+    workingDir 'frontend'
+    commandLine 'yarn', 'start' // Or 'ng serve'
+    standardOutput = System.out // Stream output to console
+}
+
+// Backend Tasks
+task createBackendVenv(type: Exec) {
+    description = "Creates Python virtual environment for the backend."
+    workingDir 'backend'
+    commandLine 'python3', '-m', 'venv', 'venv'
+    // This command assumes 'python3' is available. If not, consider using 'python' if it's Python 3,
+    // or ensure Python 3 is installed and in your PATH.
+}
+
+task installBackendDependencies(type: Exec) {
+    description = "Installs backend Python dependencies using pip."
+    workingDir 'backend'
+    commandLine pythonExecutable, '-m', 'pip', 'install', '-r', 'requirements.txt'
+    dependsOn createBackendVenv
+}
+
+task runBackendTests(type: Exec) {
+    description = "Runs backend Python tests using pytest."
+    workingDir 'backend'
+    commandLine pythonExecutable, '-m', 'pytest', 'tests/'
+    // This task relies on 'pythonExecutable' pointing to the correct Python in the venv,
+    // and that 'installBackendDependencies' was run successfully to install pytest and other deps.
+    dependsOn installBackendDependencies
+}
+
+task serveBackend(type: Exec) {
+    description = "Serves the FastAPI backend in development mode."
+    workingDir 'backend'
+    commandLine pythonExecutable, '-m', 'uvicorn', 'src.main:app', '--reload', '--port', '8000'
+    standardOutput = System.out // Stream output to console
+    dependsOn installBackendDependencies
+}
+
+// Common Tasks
+task buildAll(dependsOn: [buildFrontend, installBackendDependencies]) {
+    description = "Builds both frontend and backend dependencies."
+}
+
+task testAll(dependsOn: [testFrontend, runBackendTests]) {
+    description = "Runs all frontend and backend tests."
+}
+
+// You can create a 'dev' task to run both frontend and backend concurrently
+// This is more complex with Gradle's Exec tasks, often better handled by a simple shell script
+// or a dedicated tool like 'concurrently' (npm package) or 'honcho' (python package)
+// For demonstration, we'll keep them separate.

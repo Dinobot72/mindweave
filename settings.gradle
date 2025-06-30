@@ -1,0 +1,5 @@
+// mindweave/settings.gradle
+rootProject.name = 'mindweave'
+
+include 'frontend'
+include 'backend'

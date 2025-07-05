@@ -1,11 +1,37 @@
-<h1>Welcome to {{ title }}!</h1>
 
-<p>
-  <mat-icon>home</mat-icon> <!-- Displays a 'home' icon -->
-  <span>Home</span>
-</p>
+<div class="container">
+  <mat-toolbar>
+    <button mat-icon-button>
+      <mat-icon>home</mat-icon>
+    </button>
+    <span>Welcome to {{ title }}!</span>
+    <span class="spacer"></span>
+    <span>
+      <button mat-icon-button>
+        <mat-icon>home</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>share</mat-icon>
+      </button>
+    </span>
+  </mat-toolbar>
 
-<p>
-  <mat-icon color="primary">favorite</mat-icon> <!-- Displays a red 'favorite' icon (if you have a primary color defined in your theme) -->
-  <span>Favorite Item</span>
-</p>
+
+  <p>
+    <mat-icon>home</mat-icon>
+    <span>Home</span>
+  </p>
+
+  <p>
+    <mat-icon color="primary">favorite</mat-icon>
+    <span>Favorite Item</span>
+  </p>
+  <mat-toolbar>
+    Dylan Regan
+    <button mat-icon-button>
+      <mat-icon>mail</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+
+<router-outlet></router-outlet>

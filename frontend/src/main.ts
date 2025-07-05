@@ -1,6 +1,22 @@
+import { environment } from './environments/environment';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { AppModule } from './app/app.module';
 import { AppComponent } from './app/app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { AppRoutingModule } from './app/app-routing.module';
 
-bootstrapApplication(AppComponent, AppModule)
-  .catch((err) => console.error(err));
+if ( environment.production) {
+  enableProdMode();
+}
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(
+      BrowserAnimationsModule,
+      MatIconModule,
+      AppRoutingModule,
+    )
+  ],
+})
+  .catch((err: any) => console.error(err))

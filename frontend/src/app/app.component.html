@@ -1,37 +1,39 @@
 
 <div class="container">
-  <mat-toolbar>
-    <button mat-icon-button>
-      <mat-icon>home</mat-icon>
-    </button>
-    <span>Welcome to {{ title }}!</span>
-    <span class="spacer"></span>
-    <span>
+  <header class="header">
+    <mat-toolbar color="primary">
       <button mat-icon-button>
         <mat-icon>home</mat-icon>
+      </button>
+      <span>Welcome to {{ title }}!</span>
+      <span class="spacer"></span>
+      <button mat-icon-button>
+        <mat-icon>notifications</mat-icon>
       </button>
       <button mat-icon-button>
         <mat-icon>share</mat-icon>
       </button>
-    </span>
-  </mat-toolbar>
-
-
-  <p>
+    </mat-toolbar>
+  </header>
+  <menu class="menu">
     <mat-icon>home</mat-icon>
     <span>Home</span>
-  </p>
-
-  <p>
+  </menu>
+  <content class="content">
     <mat-icon color="primary">favorite</mat-icon>
     <span>Favorite Item</span>
-  </p>
-  <mat-toolbar>
-    Dylan Regan
-    <button mat-icon-button>
-      <mat-icon>mail</mat-icon>
-    </button>
-  </mat-toolbar>
+    <router-outlet></router-outlet>
+  </content>
+  <footer class="footer">
+    <mat-toolbar color="primary">
+      <span> 2025 Dylan Regan - MindWeave </span>
+      <span class="spacer"></span>
+      <button mat-icon-button>
+        <mat-icon>mail</mat-icon>
+      </button>
+    </mat-toolbar>
+  </footer>
 </div>
 
-<router-outlet></router-outlet>
+
+

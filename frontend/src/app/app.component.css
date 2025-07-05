@@ -1,6 +1,121 @@
-.container {
-    display: grid;
+/* ~/mindweave/frontend/src/app/app.component.css */
+
+/*
+  Ensure the host element (<app-root>) and html/body take full viewport height
+  for the grid's 1fr rows to work correctly.
+*/
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Changed height: 100% to min-height: 100vh for better full-page layout */
+  width: 100%;
 }
+
+
+
+
+.container {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "menu   content"
+    "footer footer";
+  grid-template-columns: 20vw 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 5px;
+  padding: 5px;
+  height: 100%; 
+  width: 100%;
+  box-sizing: border-box; /* Include padding in width/height calculation */
+  overflow: hidden; /* Prevent overall scrollbars if content overflows, individual areas will scroll */
+}
+
+/* --- FIX: Targeted specific classes instead of generic 'div' --- */
+/* This prevents styling Angular Material's internal divs unexpectedly */
+.header, .menu, .content, .footer {
+  background-color: #e0e0e0; /* A lighter grey for visibility */
+  padding: 10px;
+  border-radius: 8px; /* Rounded corners for grid areas */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow */
+}
+
+/* Specific styling for your layout areas */
+.header {
+  grid-area: header;
+  padding: 0; /* Mat-toolbar handles its own padding */
+  background: none; /* Mat-toolbar provides its own background */
+  box-shadow: none; /* Mat-toolbar provides its own shadow */
+}
+
+.menu {
+  grid-area: menu;
+  /* --- FIX: Removed redundant width as grid-template-columns already defines it --- */
+  /* width: 10vw; */
+  overflow-y: auto; /* Enable scrolling if menu content overflows */
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+
+.menu mat-icon {
+  margin-right: 8px;
+  color: #3f51b5; /* Material primary color for icons */
+}
+
+.content {
+  grid-area: content;
+  overflow-y: auto; /* Enable scrolling if main content overflows */
+}
+
+.footer {
+  grid-area: footer;
+  padding: 0; /* Mat-toolbar handles its own padding */
+  background: none; /* Mat-toolbar provides its own background */
+  box-shadow: none; /* Mat-toolbar provides its own shadow */
+}
+
+/* Angular Material specific adjustments */
+mat-toolbar {
+  height: 64px; /* Standard Material toolbar height */
+  padding: 0 16px; /* Standard Material toolbar padding */
+  display: flex;
+  align-items: center;
+}
+
 .spacer {
-    flex: 1 1 auto;
+  flex: 1 1 auto; /* Pushes content to ends of toolbar */
+}
+
+mat-icon {
+  vertical-align: middle; /* Align icons nicely with text */
+}
+
+/* --- Basic Responsiveness with Media Queries --- */
+@media (max-width: 768px) {
+  .container {
+    grid-template-areas:
+      "header"
+      "menu"
+      "content"
+      "footer";
+    grid-template-columns: 1fr; /* Single column */
+    grid-template-rows: auto auto 1fr auto;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .menu {
+    height: auto;
+    max-height: 200px;
+  }
 }

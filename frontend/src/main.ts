@@ -5,6 +5,7 @@ import { AppComponent } from './app/app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app/app-routing.module';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 if ( environment.production) {
   enableProdMode();
@@ -15,6 +16,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       BrowserAnimationsModule,
       MatIconModule,
+      MatGridListModule,
       AppRoutingModule,
     )
   ],

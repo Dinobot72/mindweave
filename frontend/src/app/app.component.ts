@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button'
+import { homePageComponent } from './homepage/homepage.component';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button'
     RouterOutlet,
     MatToolbarModule,
     MatButtonModule,
+    homePageComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
